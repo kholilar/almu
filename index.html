@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik Nusantara - Media Pembelajaran SD</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Base Styles & Theme */
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: #2D1B0E; /* Dark Chocolate */
+            color: #FFF8E7; /* Cream text */
+            overflow: hidden; 
+            user-select: none; 
+        }
+        .font-fredoka { font-family: 'Fredoka', sans-serif; }
+        
+        /* Batik Pattern Overlay with softer opacity */
+        .batik-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a373' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 248, 231, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .glass-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(212, 163, 115, 0.5); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(212, 163, 115, 0.8); }
+
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.2); } 50% { box-shadow: 0 0 30px rgba(217, 119, 6, 0.6); } }
+        @keyframes slide-up-fade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pop-in { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rattle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); } }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-pop-in { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
+        .animate-rattle { animation: rattle 0.3s linear infinite; }
+
+        /* Utility */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .hidden-section { display: none !important; }
+    </style>
+</head>
+<body class="h-screen flex flex-col relative overflow-hidden bg-[#2D1B0E] batik-bg">
+
+    <!-- Warm Spotlight Background -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#5e3a22] via-[#2D1B0E] to-[#1a0f05] z-0 opacity-80"></div>
+    
+    <!-- Floating Orbs Decoration -->
+    <div class="absolute top-20 left-20 w-64 h-64 bg-amber-600/10 rounded-full blur-[80px] animate-float pointer-events-none"></div>
+    <div class="absolute bottom-20 right-20 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] animate-float pointer-events-none" style="animation-delay: -2s;"></div>
+
+    <!-- Header -->
+    <header class="relative z-20 px-6 py-5 flex justify-between items-center shrink-0">
+        <div class="flex items-center gap-4 glass-panel px-5 py-2.5 rounded-full transition-transform hover:scale-105 cursor-pointer" onclick="SoundManager.play('click')">
+            <div class="bg-gradient-to-br from-amber-400 to-orange-600 p-2.5 rounded-full shadow-lg shadow-orange-500/40 animate-spin-slow">
+                <i data-lucide="music" class="w-6 h-6 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-fredoka font-bold text-white tracking-wide leading-none">Musik Nusantara</h1>
+                <p class="text-xs text-amber-200 font-bold uppercase tracking-widest mt-1">Warisan Budaya</p>
+            </div>
+        </div>
+        
+        <div class="flex gap-4 items-center">
+            <div class="hidden md:flex glass-panel px-4 py-2 rounded-full items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-amber-400"></i>
+                <span class="text-sm font-bold text-amber-100">Jelajah Indonesia</span>
+            </div>
+            <!-- Mute Button -->
+            <button onclick="SoundManager.toggleMute()" id="mute-btn" class="glass-button p-3 rounded-full hover:bg-white/10 active:scale-95 transition-all text-amber-100 hover:text-white">
+                <i data-lucide="volume-2" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 relative z-10 p-4 md:p-8 pb-32 flex flex-col overflow-hidden">
+        
+        <!-- HOME SECTION -->
+        <section id="section-home" class="flex-1 flex flex-col items-center justify-center animate-pop-in relative w-full max-w-6xl mx-auto">
+             
+             <div class="text-center w-full relative z-10">
+                <!-- Hero Visual -->
+                <div class="inline-block mb-8 relative group hover:scale-105 transition-transform duration-500 ease-out">
+                   <div class="absolute inset-0 bg-amber-500/20 rounded-full blur-[60px] group-hover:bg-amber-400/30 transition-colors"></div>
+                   <div id="home-visual-container" class="transform scale-110 origin-center drop-shadow-2xl"></div> 
+                   <div class="absolute -right-6 -top-4 animate-bounce">
+                      <i data-lucide="sparkles" class="w-10 h-10 text-yellow-300 drop-shadow-lg"></i>
+                   </div>
+                </div>
+
+                <h2 class="text-5xl md:text-7xl font-fredoka font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-amber-100 to-amber-300 drop-shadow-sm mb-6 leading-tight">
+                  Alat Musik Tradisional
+                </h2>
+                
+                <div class="max-w-2xl mx-auto mb-12">
+                    <p class="text-lg md:text-2xl text-amber-100/90 font-medium leading-relaxed bg-black/20 backdrop-blur-sm py-3 px-8 rounded-2xl border border-white/5">
+                      "Mari mengenal suara indah kekayaan budaya Indonesia <br class="hidden md:block"/>dari Sabang sampai Merauke!" 🇮🇩
+                    </p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6 justify-center items-center w-full">
+                   <button onclick="switchTab('modules')" class="group relative w-full md:w-72 p-[2px] rounded-[2rem] bg-gradient-to-b from-amber-300 to-orange-600 shadow-[0_10px_40px_-10px_rgba(245,158,11,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(245,158,11,0.7)] transition-all duration-300 hover:-translate-y-1 active:translate-y-0 active:scale-95">
+                      <div class="bg-[#3A2212] rounded-[1.9rem] px-8 py-5 h-full flex items-center justify-start gap-5 relative overflow-hidden">
+                         <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
+                         <div class="bg-gradient-to-br from-amber-500 to-orange-600 p-3 rounded-2xl shadow-lg group-hover:rotate-12 transition-transform">
+                            <i data-lucide="book-open" class="w-8 h-8 text-white"></i>
+                         </div>
+                         <div class="text-left relative z-10">
+                            <div class="text-xs font-bold text-amber-200/80 uppercase tracking-wider mb-1">Mulai Belajar</div>
+                            <div class="text-2xl font-fredoka font-bold text-white group-hover:text-amber-100">Materi</div>
+                         </div>
+                      </div>
+                   </button>
+
+                   <button onclick="switchTab('game')" class="group relative w-full md:w-72 p-[2px] rounded-[2rem] bg-gradient-to-b from-emerald-300 to-teal-600 shadow-[0_10px_40px_-10px_rgba(16,185,129,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.7)] transition-all duration-300 hover:-translate-y-1 active:translate-y-0 active:scale-95">
+                      <div class="bg-[#1A2E26] rounded-[1.9rem] px-8 py-5 h-full flex items-center justify-start gap-5 relative overflow-hidden">
+                         <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
+                         <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-3 rounded-2xl shadow-lg group-hover:-rotate-12 transition-transform">
+                            <i data-lucide="gamepad-2" class="w-8 h-8 text-white"></i>
+                         </div>
+                         <div class="text-left relative z-10">
+                            <div class="text-xs font-bold text-emerald-200/80 uppercase tracking-wider mb-1">Tantangan</div>
+                            <div class="text-2xl font-fredoka font-bold text-white group-hover:text-emerald-100">Permainan</div>
+                         </div>
+                      </div>
+                   </button>
+                </div>
+             </div>
+        </section>
+
+        <!-- MODULES SECTION -->
+        <section id="section-modules" class="hidden-section h-full flex flex-col lg:flex-row gap-6 animate-slide-up w-full max-w-7xl mx-auto">
+            <!-- Sidebar Navigation -->
+            <div class="w-full lg:w-80 flex-shrink-0 flex flex-col glass-panel rounded-3xl overflow-hidden shadow-xl max-h-[30vh] lg:max-h-full">
+                <div class="p-4 bg-white/5 border-b border-white/10 backdrop-blur-md sticky top-0 z-20">
+                    <h3 class="text-lg font-bold text-amber-100 flex items-center gap-2">
+                        <i data-lucide="list-music" class="w-5 h-5 text-amber-400"></i> Daftar Alat
+                    </h3>
+                </div>
+                <div id="modules-list" class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
+                    <!-- Modules injected via JS -->
+                </div>
+            </div>
+
+            <!-- Content Detail -->
+            <div id="module-detail" class="flex-1 glass-panel rounded-[2.5rem] p-6 md:p-10 relative overflow-hidden flex flex-col lg:flex-row gap-8 shadow-2xl items-center justify-center">
+                <!-- Content injected via JS -->
+            </div>
+        </section>
+
+        <!-- GAME SECTION -->
+        <section id="section-game" class="hidden-section w-full h-full flex flex-col relative z-10 overflow-y-auto custom-scrollbar">
+            
+            <!-- Game Menu -->
+            <div id="game-menu" class="flex-1 flex flex-col items-center justify-center animate-pop-in">
+                <div class="text-center mb-12">
+                    <div class="inline-block bg-amber-500/20 px-6 py-2 rounded-full border border-amber-500/30 mb-4">
+                        <span class="text-amber-200 font-bold uppercase tracking-wider text-sm">Zona Permainan</span>
+                    </div>
+                    <h2 class="text-5xl md:text-6xl font-fredoka font-black text-white drop-shadow-lg">Pilih Tantanganmu</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl px-6">
+                    <!-- Quiz Card -->
+                    <button onclick="startGame('quiz')" class="group relative h-72 w-full perspective-1000">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-700 rounded-[2.5rem] transform transition-transform duration-500 group-hover:rotate-2 shadow-2xl opacity-80"></div>
+                        <div class="absolute inset-0 bg-[#351e10] rounded-[2.5rem] border border-white/10 flex flex-col items-center justify-center p-8 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl"></div>
+                            
+                            <div class="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-orange-900/50 group-hover:scale-110 transition-transform">
+                                <i data-lucide="help-circle" class="w-12 h-12 text-white"></i>
+                            </div>
+                            <h3 class="text-3xl font-fredoka font-bold text-white mb-2 group-hover:text-amber-200 transition-colors">Kuis Nusantara</h3>
+                            <p class="text-center text-white/60 text-sm font-medium">Uji pengetahuanmu tentang alat musik tradisional.</p>
+                        </div>
+                    </button>
+
+                    <!-- Memory Card -->
+                    <button onclick="startGame('memory')" class="group relative h-72 w-full perspective-1000">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-[2.5rem] transform transition-transform duration-500 group-hover:-rotate-2 shadow-2xl opacity-80"></div>
+                        <div class="absolute inset-0 bg-[#122922] rounded-[2.5rem] border border-white/10 flex flex-col items-center justify-center p-8 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                            <div class="absolute top-0 left-0 w-32 h-32 bg-emerald-500/20 rounded-full blur-2xl"></div>
+                            
+                            <div class="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-teal-900/50 group-hover:scale-110 transition-transform">
+                                <i data-lucide="brain" class="w-12 h-12 text-white"></i>
+                            </div>
+                            <h3 class="text-3xl font-fredoka font-bold text-white mb-2 group-hover:text-emerald-200 transition-colors">Memori Level</h3>
+                            <p class="text-center text-white/60 text-sm font-medium">Latih daya ingatmu dengan 4 tingkatan level.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="hidden-section flex-1 flex flex-col items-center justify-center animate-slide-up mt-4 pb-24 w-full max-w-5xl mx-auto">
+                <!-- Injected by JS -->
+            </div>
+
+            <!-- Memory Container -->
+            <div id="memory-container" class="hidden-section flex-1 flex flex-col items-center justify-center animate-slide-up mt-2 pb-24 w-full max-w-5xl mx-auto">
+                 <!-- Injected by JS -->
+            </div>
+            
+            <!-- Back Button -->
+            <button id="btn-back-game" onclick="showGameMenu()" class="absolute top-4 left-4 glass-button px-5 py-2.5 rounded-full flex items-center gap-2 font-bold text-amber-100 hover:bg-white/10 hover:pr-6 transition-all z-50 hidden-section group">
+                <i data-lucide="arrow-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i> Kembali
+            </button>
+
+        </section>
+
+    </main>
+
+    <!-- Modern Floating Dock Navigation -->
+    <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+        <div class="glass-panel rounded-full p-2 flex justify-between items-center shadow-2xl ring-1 ring-white/10 px-6">
+            
+            <button onclick="switchTab('home')" class="nav-btn group flex flex-col items-center gap-1 relative px-4 py-2 transition-all duration-300" data-target="home">
+                <div class="icon-container p-3 rounded-2xl transition-all duration-300 hover:bg-white/10">
+                    <i data-lucide="home" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                </div>
+                <div class="indicator w-1 h-1 bg-amber-400 rounded-full mt-1 opacity-0 transition-opacity"></div>
+            </button>
+            
+            <button onclick="switchTab('modules')" class="nav-btn group flex flex-col items-center gap-1 relative px-4 py-2 transition-all duration-300" data-target="modules">
+                <div class="icon-container p-3 rounded-2xl transition-all duration-300 hover:bg-white/10">
+                    <i data-lucide="book-open" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                </div>
+                <div class="indicator w-1 h-1 bg-amber-400 rounded-full mt-1 opacity-0 transition-opacity"></div>
+            </button>
+
+            <button onclick="switchTab('game')" class="nav-btn group flex flex-col items-center gap-1 relative px-4 py-2 transition-all duration-300" data-target="game">
+                <div class="icon-container p-3 rounded-2xl transition-all duration-300 hover:bg-white/10">
+                    <i data-lucide="gamepad-2" class="w-6 h-6 text-white/50 group-hover:text-white transition-colors"></i>
+                </div>
+                <div class="indicator w-1 h-1 bg-amber-400 rounded-full mt-1 opacity-0 transition-opacity"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- SOUND MANAGER (Optimized) ---
+        const SoundManager = {
+            ctx: null, isMuted: false,
+            init: function() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+            toggleMute: function() {
+                this.isMuted = !this.isMuted;
+                const btn = document.getElementById('mute-btn');
+                btn.innerHTML = this.isMuted ? '<i data-lucide="volume-x" class="w-6 h-6 text-red-400"></i>' : '<i data-lucide="volume-2" class="w-6 h-6 text-amber-100"></i>';
+                lucide.createIcons();
+            },
+            play: function(type) {
+                if (this.isMuted) return; this.init(); if (this.ctx.state === 'suspended') this.ctx.resume();
+                const t = this.ctx.currentTime, osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                if (type === 'click') {
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(800, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.1);
+                    gain.gain.setValueAtTime(0.15, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                    osc.start(t); osc.stop(t + 0.1);
+                } else if (type === 'correct') {
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(554.37, t); gain.gain.setValueAtTime(0.2, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.8);
+                    osc.start(t); osc.stop(t + 0.8);
+                } else if (type === 'win') {
+                    [554, 622, 739, 830, 1108].forEach((f, i) => {
+                        const o = this.ctx.createOscillator(), g = this.ctx.createGain(); o.connect(g); g.connect(this.ctx.destination);
+                        o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.1, t + i*0.1); g.gain.exponentialRampToValueAtTime(0.01, t + i*0.1 + 0.8);
+                        o.start(t + i*0.1); o.stop(t + i*0.1 + 0.8);
+                    });
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, t); gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+                    osc.start(t); osc.stop(t + 0.3);
+                }
+            },
+            playInstrument: function(type) {
+                if (this.isMuted) return; this.init(); if (this.ctx.state === 'suspended') this.ctx.resume();
+                const t = this.ctx.currentTime;
+                // Instrument Synths (Simplified for stability)
+                if (type === 'angklung') {
+                    const osc = this.ctx.createOscillator(), gain = this.ctx.createGain(); osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'square'; osc.frequency.value = 523.25; 
+                    const filter = this.ctx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 523; osc.disconnect(); osc.connect(filter); filter.connect(gain);
+                    const lfo = this.ctx.createOscillator(); lfo.frequency.value = 15; const lfoGain = this.ctx.createGain(); lfoGain.gain.value = 500; lfo.connect(lfoGain); lfoGain.connect(gain.gain); lfo.start(t);
+                    gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.3, t + 0.1); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.6);
+                    osc.start(t); osc.stop(t + 0.6); lfo.stop(t + 0.6);
+                } else if (type === 'sasando') {
+                    const osc = this.ctx.createOscillator(), gain = this.ctx.createGain(); osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'triangle'; osc.frequency.value = 392; gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.4, t + 0.05); gain.gain.exponentialRampToValueAtTime(0.01, t + 2);
+                    osc.start(t); osc.stop(t + 2);
+                } else if (type === 'tifa') {
+                    const osc = this.ctx.createOscillator(), gain = this.ctx.createGain(); osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(150, t); osc.frequency.exponentialRampToValueAtTime(60, t + 0.1);
+                    gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3); osc.start(t); osc.stop(t + 0.3);
+                } else if (type === 'bonang') {
+                    const osc = this.ctx.createOscillator(), gain = this.ctx.createGain(); osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.type = 'sine'; osc.frequency.value = 261.63; gain.gain.setValueAtTime(0.5, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 1.5);
+                    osc.start(t); osc.stop(t + 1.5);
+                }
+            }
+        };
+
+        // --- DATA ---
+        const modulesData = [
+            { id: 1, title: "Angklung", color: "from-amber-400 to-yellow-600", description: "Alat musik asli Jawa Barat dari bambu. Dimainkan dengan cara digoyangkan agar saling berbenturan menghasilkan nada.", fact: "Angklung diakui UNESCO sebagai Warisan Budaya Takbenda Manusia sejak 2010!", visualType: "angklung" },
+            { id: 2, title: "Sasando", color: "from-emerald-400 to-teal-600", description: "Alat musik petik dari Pulau Rote, NTT. Unik karena menggunakan daun lontar sebagai resonator (pengeras suara).", fact: "Nama Sasando berasal dari kata 'Sasandu' yang artinya alat yang bergetar.", visualType: "sasando" },
+            { id: 3, title: "Tifa", color: "from-red-600 to-rose-800", description: "Gendang khas Papua dan Maluku. Bentuknya panjang, dibuat dari kayu dan kulit rusa. Sering dipakai untuk tarian perang.", fact: "Ukiran pada Tifa menceritakan kisah hidup suku pembuatnya.", visualType: "tifa" },
+            { id: 4, title: "Bonang", color: "from-yellow-500 to-amber-700", description: "Bagian dari Gamelan Jawa. Terdiri dari gong-gong kecil yang disusun berbaris. Dimainkan dengan dipukul tongkat.", fact: "Bonang sering menjadi pemimpin melodi dalam orkestra Gamelan.", visualType: "bonang" }
+        ];
+
+        const quizData = [
+            { question: "Angklung berasal dari mana?", options: ["Jawa Tengah", "Jawa Barat", "Bali", "Sumatera"], correct: 1 },
+            { question: "Cara main Sasando?", options: ["Dipukul", "Ditiup", "Digesek", "Dipetik"], correct: 3 },
+            { question: "Resonator Sasando dari apa?", options: ["Bambu", "Kulit", "Daun Lontar", "Logam"], correct: 2 },
+            { question: "Tifa berasal dari...", options: ["Papua", "Kalimantan", "Sulawesi", "Aceh"], correct: 0 },
+            { question: "Cara main Bonang?", options: ["Digoyang", "Ditiup", "Dipukul", "Ditekan"], correct: 2 },
+            { question: "Bahan utama Angklung?", options: ["Jati", "Bambu", "Logam", "Plastik"], correct: 1 }
+        ];
+
+        // --- STATE & VISUALS ---
+        let currentTab = 'home', currentModule = modulesData[0], currentQuestion = 0, quizScore = 0;
+        let memoryLevel = 1, memoryCards = [], flippedIndices = [], matchedPairs = [], memoryMoves = 0, isProcessing = false;
+
+        function getInstrumentVisual(type, size = 'large') {
+            const isSmall = size === 'small';
+            let sizeClass = isSmall ? 'w-16 h-16' : 'w-48 h-48 md:w-64 md:h-64';
+            let content = '';
+            
+            if(type === 'angklung') {
+                content = `<div class="relative w-full h-full flex flex-col items-center justify-center ${size === 'large' ? 'hover:animate-rattle' : ''}"><div class="flex items-end gap-1 mb-1"><div class="w-1.5 h-10 bg-amber-800 rounded-t border border-amber-950"></div><div class="w-1.5 h-16 bg-amber-800 rounded-t border border-amber-950"></div><div class="w-1.5 h-12 bg-amber-800 rounded-t border border-amber-950"></div></div><div class="w-12 h-1.5 bg-amber-900 rounded-full"></div></div>`;
+            } else if (type === 'sasando') {
+                content = `<div class="relative w-full h-full flex items-center justify-center"><div class="absolute w-20 h-20 bg-orange-100 rounded-full border-2 border-orange-300" style="clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%); transform: rotate(180deg) translateY(-5px);"></div><div class="relative w-3 h-20 bg-amber-800 rounded-full border-x border-black/20"></div></div>`;
+            } else if (type === 'tifa') {
+                content = `<div class="relative w-full h-full flex items-center justify-center transform rotate-12"><div class="w-8 h-20 bg-[#3d2410] rounded flex flex-col overflow-hidden"><div class="h-3 bg-orange-200 border-b border-black/30"></div><div class="flex-1 flex flex-col justify-around py-1"><div class="w-full h-1 bg-white/10"></div><div class="w-full h-1 bg-white/10"></div></div></div></div>`;
+            } else if (type === 'bonang') {
+                content = `<div class="relative w-full h-full flex items-center justify-center"><div class="w-16 h-10 bg-gradient-to-b from-yellow-500 to-amber-700 rounded-[100%] border-b-2 border-amber-900 shadow-md flex justify-center"><div class="w-6 h-4 bg-yellow-400 rounded-full -mt-2 shadow-sm"></div></div></div>`;
+            }
+            
+            // Adjust scale for large visual
+            if (!isSmall) {
+                content = `<div class="transform scale-[2.5]">${content}</div>`;
+            }
+
+            return `<div class="relative flex items-center justify-center ${sizeClass} bg-white/5 rounded-full backdrop-blur-sm border border-white/10 shadow-inner">${content}</div>`;
+        }
+
+        // --- APP LOGIC ---
+        window.onload = function() {
+            lucide.createIcons();
+            document.getElementById('home-visual-container').innerHTML = getInstrumentVisual('angklung', 'large');
+            renderModulesList(); renderModuleDetail(); updateNav();
+            document.body.addEventListener('click', () => SoundManager.init(), {once:true});
+        };
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('section').forEach(el => el.classList.add('hidden-section'));
+            document.getElementById('section-'+tab).classList.remove('hidden-section');
+            updateNav();
+            if(tab === 'game') showGameMenu();
+        }
+
+        function updateNav() {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const active = btn.dataset.target === currentTab;
+                const iconContainer = btn.querySelector('.icon-container');
+                const icon = btn.querySelector('svg');
+                const indicator = btn.querySelector('.indicator');
+                
+                if (active) {
+                    btn.classList.add('-translate-y-4');
+                    iconContainer.className = 'icon-container p-4 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 shadow-lg shadow-orange-500/40 scale-110 transition-all duration-300';
+                    icon.className = 'w-7 h-7 text-white stroke-[2.5]';
+                    indicator.classList.remove('opacity-0');
+                } else {
+                    btn.classList.remove('-translate-y-4');
+                    iconContainer.className = 'icon-container p-3 rounded-full hover:bg-white/10 transition-all duration-300';
+                    icon.className = 'w-6 h-6 text-white/50 group-hover:text-white transition-colors';
+                    indicator.classList.add('opacity-0');
+                }
+            });
+        }
+
+        // --- MODULES ---
+        function renderModulesList() {
+            document.getElementById('modules-list').innerHTML = modulesData.map(mod => `
+                <button onclick="selectModule(${mod.id})" class="w-full text-left p-3 rounded-2xl transition-all duration-300 flex items-center gap-4 group border ${currentModule.id === mod.id ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-amber-500/50 shadow-lg' : 'bg-transparent border-transparent hover:bg-white/5'}">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${mod.color} shadow-inner">
+                        <i data-lucide="music" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-fredoka font-bold text-lg ${currentModule.id === mod.id ? 'text-amber-300' : 'text-white/80 group-hover:text-white'}">${mod.title}</div>
+                        ${currentModule.id === mod.id ? '<div class="text-xs text-amber-200/70 font-bold uppercase tracking-wider">Sedang Dipilih</div>' : ''}
+                    </div>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function selectModule(id) {
+            SoundManager.play('click');
+            currentModule = modulesData.find(m => m.id === id);
+            renderModulesList(); renderModuleDetail();
+        }
+
+        function renderModuleDetail() {
+            const container = document.getElementById('module-detail');
+            container.innerHTML = `
+                <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-br ${currentModule.color} opacity-10 pointer-events-none"></div>
+                
+                <div class="w-full lg:w-1/2 flex flex-col items-center z-10">
+                    <div onclick="SoundManager.playInstrument('${currentModule.visualType}')" class="transform hover:scale-105 transition-transform duration-300 cursor-pointer mb-6">
+                        ${getInstrumentVisual(currentModule.visualType, 'large')}
+                    </div>
+                    <button onclick="SoundManager.playInstrument('${currentModule.visualType}')" class="glass-button px-8 py-3 rounded-full font-bold text-amber-100 flex items-center gap-3 hover:bg-white/10 active:scale-95 transition-all">
+                        <div class="bg-amber-500 rounded-full p-1"><i data-lucide="play" class="w-4 h-4 text-white fill-current"></i></div>
+                        Dengarkan Suara
+                    </button>
+                </div>
+
+                <div class="w-full lg:w-1/2 z-10 flex flex-col justify-center">
+                    <div class="inline-block self-start px-3 py-1 rounded-lg bg-white/10 border border-white/10 text-amber-300 text-xs font-bold uppercase tracking-widest mb-4">Alat Musik Tradisional</div>
+                    <h2 class="text-5xl lg:text-6xl font-fredoka font-black text-white mb-4 drop-shadow-md leading-tight">${currentModule.title}</h2>
+                    
+                    <div class="glass-panel p-6 rounded-3xl mb-6 bg-black/20">
+                        <p class="text-lg text-amber-50 leading-relaxed font-medium">${currentModule.description}</p>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-r ${currentModule.color} shadow-lg relative overflow-hidden">
+                        <div class="absolute right-0 top-0 opacity-20 transform translate-x-1/4 -translate-y-1/4"><i data-lucide="info" class="w-24 h-24 text-white"></i></div>
+                        <div class="bg-black/20 p-2.5 rounded-xl shrink-0 backdrop-blur-sm"><i data-lucide="lightbulb" class="w-6 h-6 text-white"></i></div>
+                        <div class="relative z-10">
+                            <h4 class="text-xs font-black uppercase text-white/70 mb-1">Tahukah Kamu?</h4>
+                            <p class="text-white font-bold italic leading-snug">"${currentModule.fact}"</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- GAME LOGIC (Quiz & Memory) ---
+        function showGameMenu() {
+            document.getElementById('game-menu').classList.remove('hidden-section');
+            document.getElementById('quiz-container').classList.add('hidden-section');
+            document.getElementById('memory-container').classList.add('hidden-section');
+            document.getElementById('btn-back-game').classList.add('hidden-section');
+        }
+
+        function startGame(type) {
+            SoundManager.play('click');
+            document.getElementById('game-menu').classList.add('hidden-section');
+            document.getElementById('btn-back-game').classList.remove('hidden-section');
+            
+            if (type === 'quiz') {
+                document.getElementById('quiz-container').classList.remove('hidden-section');
+                initQuiz();
+            } else {
+                memoryLevel = 1;
+                document.getElementById('memory-container').classList.remove('hidden-section');
+                initMemory();
+            }
+        }
+
+        // QUIZ implementation
+        function initQuiz() { currentQuestion = 0; quizScore = 0; renderQuiz(); }
+        function renderQuiz(finished = false) {
+            const container = document.getElementById('quiz-container');
+            if(finished) {
+                SoundManager.play('win');
+                container.innerHTML = `
+                    <div class="glass-panel p-10 rounded-[3rem] text-center max-w-lg mx-auto animate-pop-in">
+                        <div class="inline-flex p-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full shadow-lg shadow-orange-500/40 mb-6 animate-float"><i data-lucide="trophy" class="w-16 h-16 text-white"></i></div>
+                        <h2 class="text-4xl font-fredoka font-black text-white mb-2">Hebat Sekali!</h2>
+                        <p class="text-amber-200/80 mb-8">Kamu telah menyelesaikan kuis.</p>
+                        <div class="text-7xl font-fredoka font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-amber-200 mb-8">${quizScore}</div>
+                        <button onclick="initQuiz(); SoundManager.play('click')" class="glass-button px-8 py-3 rounded-full text-lg font-bold text-white hover:bg-white/10">Main Lagi</button>
+                    </div>`;
+            } else {
+                const q = quizData[currentQuestion];
+                const progress = ((currentQuestion + 1) / quizData.length) * 100;
+                container.innerHTML = `
+                    <div class="w-full mb-8 flex justify-between items-end">
+                        <div>
+                            <span class="text-amber-400 font-bold uppercase text-xs tracking-wider">Pertanyaan ${currentQuestion + 1}/${quizData.length}</span>
+                            <div class="h-2 w-48 bg-white/10 rounded-full mt-2 overflow-hidden"><div class="h-full bg-amber-400 transition-all duration-500" style="width: ${progress}%"></div></div>
+                        </div>
+                        <div class="glass-panel px-4 py-1.5 rounded-full flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i> <span class="font-bold text-white">${quizScore}</span></div>
+                    </div>
+                    <div class="glass-panel p-8 rounded-[2rem] text-center mb-8 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-orange-500"></div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-white leading-snug">${q.question}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-options">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="handleAnswer(${idx}, this)" class="glass-button p-5 rounded-2xl text-lg font-bold text-amber-100 text-left hover:bg-white/10 hover:border-amber-400/50 transition-all duration-200 flex justify-between items-center group">
+                                <span>${opt}</span>
+                                <div class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center group-hover:border-amber-400"><div class="w-2 h-2 rounded-full bg-amber-400 opacity-0 group-hover:opacity-100 transition-opacity"></div></div>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function handleAnswer(idx, btn) {
+            document.querySelectorAll('#quiz-options button').forEach(b => b.disabled = true);
+            const correct = quizData[currentQuestion].correct;
+            if (idx === correct) {
+                quizScore += 20; SoundManager.play('correct');
+                btn.className = "glass-button p-5 rounded-2xl text-lg font-bold text-white text-left bg-emerald-500/20 border-emerald-400 flex justify-between items-center shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+                btn.innerHTML += '<i data-lucide="check-circle" class="w-6 h-6 text-emerald-400"></i>';
+            } else {
+                SoundManager.play('wrong');
+                btn.className = "glass-button p-5 rounded-2xl text-lg font-bold text-white/50 text-left bg-red-500/10 border-red-400/50 flex justify-between items-center";
+                btn.innerHTML += '<i data-lucide="x-circle" class="w-6 h-6 text-red-400"></i>';
+            }
+            lucide.createIcons();
+            setTimeout(() => { if(currentQuestion < quizData.length-1){ currentQuestion++; renderQuiz(); } else { renderQuiz(true); } }, 1000);
+        }
+
+        // MEMORY implementation
+        function initMemory() {
+            const types = ['angklung', 'sasando', 'tifa', 'bonang'];
+            let selectedCards = [];
+            if (memoryLevel === 1) { const s = types.slice(0, 2); selectedCards = [...s, ...s]; }
+            else if (memoryLevel === 2) { selectedCards = [...types, ...types]; }
+            else if (memoryLevel === 3) { const pool = [...types, 'angklung', 'tifa']; selectedCards = [...pool, ...pool]; }
+            else if (memoryLevel === 4) { selectedCards = [...types, ...types, ...types, ...types]; }
+            
+            memoryCards = selectedCards.sort(() => Math.random() - 0.5).map((type, index) => ({ id: index, type }));
+            flippedIndices = []; matchedPairs = []; memoryMoves = 0; isProcessing = false;
+            renderMemory();
+        }
+
+        function renderMemory(finished = false) {
+            const container = document.getElementById('memory-container');
+            if(finished) {
+                SoundManager.play('win');
+                const nextBtn = memoryLevel < 4 
+                    ? `<button onclick="memoryLevel++; initMemory(); SoundManager.play('click')" class="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-3 rounded-full font-bold text-white shadow-lg hover:scale-105 transition-transform flex items-center gap-2 mx-auto">Level Selanjutnya <i data-lucide="arrow-right" class="w-5 h-5"></i></button>` 
+                    : `<button onclick="startGame('memory')" class="bg-amber-500 px-8 py-3 rounded-full font-bold text-white shadow-lg hover:scale-105 transition-transform mx-auto">Main Ulang</button>`;
+                
+                container.innerHTML = `
+                    <div class="glass-panel p-10 rounded-[3rem] text-center max-w-lg mx-auto animate-pop-in">
+                        <div class="inline-flex p-6 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full shadow-lg shadow-teal-500/40 mb-6 animate-bounce"><i data-lucide="star" class="w-16 h-16 text-white fill-current"></i></div>
+                        <h2 class="text-4xl font-fredoka font-black text-white mb-2">Level ${memoryLevel} Selesai!</h2>
+                        <p class="text-emerald-100/80 mb-8 font-medium">Langkah yang dibutuhkan: <span class="text-white font-bold text-xl">${memoryMoves}</span></p>
+                        ${nextActionHtml = nextBtn}
+                    </div>`;
+            } else {
+                let gridClass = 'grid-cols-2 sm:grid-cols-4 max-w-2xl';
+                if (memoryLevel === 1) gridClass = 'grid-cols-2 max-w-sm';
+                if (memoryLevel === 3) gridClass = 'grid-cols-3 sm:grid-cols-4 max-w-3xl';
+                if (memoryLevel === 4) gridClass = 'grid-cols-4 max-w-3xl';
+
+                container.innerHTML = `
+                    <div class="flex justify-between items-center mb-6 glass-panel px-6 py-3 rounded-full">
+                        <div class="flex items-center gap-2"><span class="bg-teal-500 text-xs font-bold px-2 py-0.5 rounded text-white">LEVEL ${memoryLevel}</span></div>
+                        <div class="font-bold text-amber-100">Langkah: <span class="text-white text-xl ml-1">${memoryMoves}</span></div>
+                    </div>
+                    <div class="grid ${gridClass} gap-4 mx-auto perspective-1000">
+                        ${memoryCards.map((card, idx) => {
+                            const isFlipped = flippedIndices.includes(idx) || matchedPairs.includes(card.type);
+                            const isMatched = matchedPairs.includes(card.type);
+                            // Visual State
+                            const backClass = "absolute inset-0 backface-hidden bg-gradient-to-br from-amber-600 to-orange-700 rounded-2xl shadow-lg border border-white/20 flex items-center justify-center group hover:-translate-y-1 transition-transform cursor-pointer";
+                            const frontClass = "absolute inset-0 backface-hidden rotate-y-180 bg-[#351e10] rounded-2xl border-2 border-amber-500/50 shadow-inner flex items-center justify-center";
+                            const wrapperClass = `relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 transform-style-3d transition-all duration-500 ${isFlipped ? 'rotate-y-180' : ''} ${isMatched ? 'opacity-0 pointer-events-none scale-0' : ''}`;
+                            
+                            return `<div onclick="flipCard(${idx})" class="${wrapperClass}">
+                                <div class="${backClass}"><i data-lucide="music" class="w-8 h-8 text-amber-200/50 group-hover:text-white transition-colors"></i></div>
+                                <div class="${frontClass}">${getInstrumentVisual(card.type, 'small')}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function flipCard(idx) {
+            if(isProcessing || flippedIndices.includes(idx) || matchedPairs.includes(memoryCards[idx].type)) return;
+            SoundManager.play('click');
+            flippedIndices.push(idx); renderMemory();
+            if(flippedIndices.length === 2) {
+                isProcessing = true; memoryMoves++;
+                const [c1, c2] = [memoryCards[flippedIndices[0]], memoryCards[flippedIndices[1]]];
+                if(c1.type === c2.type) {
+                    SoundManager.play('correct'); matchedPairs.push(c1.type);
+                    // Check completion: count distinct types in memoryCards vs distinct matched types (not exactly, as lvl 4 has duplicates)
+                    // Robust check: iterate all cards, if type is in matchedPairs, it's matched.
+                    const allMatched = memoryCards.every(c => matchedPairs.includes(c.type));
+                    if(allMatched) setTimeout(()=>renderMemory(true), 800);
+                    flippedIndices = []; isProcessing = false; renderMemory();
+                } else {
+                    setTimeout(()=>{ flippedIndices = []; isProcessing = false; renderMemory(); }, 1000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
